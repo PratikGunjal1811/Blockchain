@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockFlow || Company Management</title>
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/vendors/css/vendors.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{% url 'admin_index' %}" class="b-brand d-flex align-items-center text-decoration-none">
+                    <i class="fas fa-chart-line text-primary fs-2 me-2"></i>
+                    <span class="brand-text" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -1px; color: #2b3481; line-height: 1;">
+                        StockFlow
+                    </span>
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item">
+                        <a href="{% url 'admin_dashboard' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-grid"></i></span>
+                            <span class="nxl-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item active">
+                        <a href="{% url 'company_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-user-plus"></i></span>
+                            <span class="nxl-mtext">Companies</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'stockuser_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-users"></i></span>
+                            <span class="nxl-mtext">System-Users</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'share_request_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-clipboard"></i></span>
+                            <span class="nxl-mtext">Shares Operations</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-left d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
+                    <div class="hamburger hamburger--arrowturn">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </a>
+                <div class="nxl-navigation-toggle">
+                    <a href="javascript:void(0);" id="menu-mini-button">
+                        <i class="feather-align-left"></i>
+                    </a>
+                    <a href="javascript:void(0);" id="menu-expend-button" style="display: none">
+                        <i class="feather-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                    <a href="javascript:void(0);" id="nxl-lavel-mega-menu-open">
+                        <i class="feather-align-left"></i>
+                    </a>
+                </div>
+                <div class="nxl-drp-link nxl-lavel-mega-menu">
+                    <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                        <a href="javascript:void(0)" id="nxl-lavel-mega-menu-hide">
+                            <i class="feather-arrow-left me-2"></i>
+                            <span>Back</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+                    <div class="dropdown nxl-h-item nxl-header-search">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                            <i class="feather-search"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-search-dropdown">
+                            <div class="input-group search-form">
+                                <span class="input-group-text">
+                                    <i class="feather-search fs-6 text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control search-input-field" placeholder="Search...." />
+                                <span class="input-group-text">
+                                    <button type="button" class="btn-close"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item d-none d-sm-flex">
+                        <div class="full-screen-switcher">
+                            <a href="javascript:void(0);" class="nxl-head-link me-0" onclick="$('body').fullScreenHelper('toggle');">
+                                <i class="feather-maximize maximize"></i>
+                                <i class="feather-minimize minimize"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item dark-light-theme">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button">
+                            <i class="feather-moon"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 light-button" style="display: none">
+                            <i class="feather-sun"></i>
+                        </a>
+                    </div>
+                    <div class="dropdown nxl-h-item">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
+                            <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar me-0" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
+                            <div class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar" />
+                                    <div>
+                                        <h6 class="text-dark mb-0">Admin Login <span class="badge bg-soft-success text-success ms-1">Active</span></h6>
+                                        <span class="fs-12 fw-medium text-muted">admin@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'logout' %}" class="dropdown-item">
+                                <i class="feather-log-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="page-header">
+                <div class="page-header-left">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Company Management</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Reg. Number</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in companies %}
+                                    <tr id="company-row-{{ company.id }}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-text avatar-md bg-soft-primary text-primary me-3">
+                                                    {{ company.company_name|first|upper }}
+                                                </div>
+                                                <span class="fw-bold">{{ company.company_name }}</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-soft-info text-info">{{ company.registration_number }}</span></td>
+                                        <td>{{ company.username }}</td>
+                                        <td>{{ company.email }}</td>
+                                        <td>{{ company.contact_number }}</td>
+                                        <td class="text-end">
+                                            <div class="d-flex justify-content-end gap-2 px-3">
+                                                <button onclick="editCompany('{{ company.id }}', '{{ company.company_name }}', '{{ company.registration_number }}', '{{ company.username }}', '{{ company.email }}', '{{ company.contact_number }}', '{{ company.address }}')"
+                                                    class="btn btn-sm btn-light-brand" title="Edit">
+                                                    <i class="feather-edit-3"></i>
+                                                </button>
+                                                <button onclick="deleteCompany('{{ company.id }}')"
+                                                    class="btn btn-sm btn-light-danger" title="Delete">
+                                                    <i class="feather-trash-2"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/assets/vendors/js/vendors.min.js"></script>
+    <script src="/static/assets/js/common-init.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        async function editCompany(id, name, reg, uname, email, contact, addr) {
+            const { value: formValues } = await Swal.fire({
+                title: 'Edit Company Information',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-2"><label class="form-label small fw-bold">Company Name</label><input id="swal-name" class="form-control" value="${name}"></div>
+                        <div class="mb-2"><label class="form-label small fw-bold">Registration No.</label><input id="swal-reg" class="form-control" value="${reg}"></div>
+                        <div class="mb-2"><label class="form-label small fw-bold">Username</label><input id="swal-uname" class="form-control" value="${uname}"></div>
+                        <div class="mb-2"><label class="form-label small fw-bold">Email</label><input id="swal-email" class="form-control" value="${email}"></div>
+                        <div class="mb-2"><label class="form-label small fw-bold">Contact</label><input id="swal-contact" class="form-control" value="${contact}"></div>
+                        <div class="mb-2"><label class="form-label small fw-bold">Address</label><textarea id="swal-addr" class="form-control">${addr}</textarea></div>
+                        <div class="mb-2"><label class="form-label small fw-bold text-danger">New Password (Optional)</label><input id="swal-pass" type="password" class="form-control" placeholder="Leave empty to keep current"></div>
+                    </div>`,
+                showCancelButton: true,
+                confirmButtonColor: '#2b3481',
+                preConfirm: () => ({
+                    company_name: document.getElementById('swal-name').value,
+                    registration_number: document.getElementById('swal-reg').value,
+                    username: document.getElementById('swal-uname').value,
+                    email: document.getElementById('swal-email').value,
+                    contact_number: document.getElementById('swal-contact').value,
+                    address: document.getElementById('swal-addr').value,
+                    password: document.getElementById('swal-pass').value
+                })
+            });
+
+            if (formValues) {
+                const formData = new FormData();
+                Object.keys(formValues).forEach(key => formData.append(key, formValues[key]));
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                fetch(`/companies/update/${id}/`, { method: "POST", body: formData, headers: { "X-Requested-With": "XMLHttpRequest" }})
+                .then(res => res.json()).then(data => {
+                    if (data.status === 'success') Swal.fire('Updated!', data.message, 'success').then(() => location.reload());
+                    else Swal.fire('Error', data.message, 'error');
+                });
+            }
+        }
+
+        function deleteCompany(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "All company records will be permanently deleted.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Yes, Delete'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData();
+                    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                    fetch(`/companies/delete/${id}/`, { method: "POST", body: formData, headers: { "X-Requested-With": "XMLHttpRequest" }})
+                    .then(res => res.json()).then(data => {
+                        if (data.status === 'success') {
+                            Swal.fire('Deleted!', data.message, 'success');
+                            document.getElementById(`company-row-${id}`).remove();
+                        } else Swal.fire('Error', data.message, 'error');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

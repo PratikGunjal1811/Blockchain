@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockFlow || Admin Dashboard</title>
+    <link rel="shortcut icon" type="image/x-icon" href="static/assets/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/assets/vendors/css/vendors.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/assets/css/theme.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{% url 'admin_index' %}" class="b-brand d-flex align-items-center text-decoration-none">
+                    <i class="fas fa-chart-line text-primary fs-2 me-2"></i>
+                    <span class="brand-text" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -1px; color: #2b3481; line-height: 1;">
+                        StockFlow
+                    </span>
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item active">
+                        <a href="{% url 'admin_dashboard' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-grid"></i></span>
+                            <span class="nxl-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'company_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-user-plus"></i></span>
+                            <span class="nxl-mtext">Companies</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'stockuser_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-users"></i></span>
+                            <span class="nxl-mtext">System-Users</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'share_request_list' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-clipboard"></i></span>
+                            <span class="nxl-mtext">Shares Operations</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-left d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
+                    <div class="hamburger hamburger--arrowturn">
+                        <div class="hamburger-box"><div class="hamburger-inner"></div></div>
+                    </div>
+                </a>
+                <div class="nxl-navigation-toggle">
+                    <a href="javascript:void(0);" id="menu-mini-button"><i class="feather-align-left"></i></a>
+                    <a href="javascript:void(0);" id="menu-expend-button" style="display: none"><i class="feather-arrow-right"></i></a>
+                </div>
+                <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                    <a href="javascript:void(0);" id="nxl-lavel-mega-menu-open"><i class="feather-align-left"></i></a>
+                </div>
+                <div class="nxl-drp-link nxl-lavel-mega-menu">
+                    <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                        <a href="javascript:void(0)" id="nxl-lavel-mega-menu-hide">
+                            <i class="feather-arrow-left me-2"></i><span>Back</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+                    <div class="dropdown nxl-h-item nxl-header-search">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                            <i class="feather-search"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-search-dropdown">
+                            <div class="input-group search-form">
+                                <span class="input-group-text"><i class="feather-search fs-6 text-muted"></i></span>
+                                <input type="text" class="form-control search-input-field" placeholder="Search...." />
+                                <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item d-none d-sm-flex">
+                        <div class="full-screen-switcher">
+                            <a href="javascript:void(0);" class="nxl-head-link me-0" onclick="$('body').fullScreenHelper('toggle');">
+                                <i class="feather-maximize maximize"></i>
+                                <i class="feather-minimize minimize"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item dark-light-theme">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button"><i class="feather-moon"></i></a>
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 light-button" style="display: none"><i class="feather-sun"></i></a>
+                    </div>
+                    <div class="dropdown nxl-h-item">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
+                            <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar me-0" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
+                            <div class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar" />
+                                    <div>
+                                        <h6 class="text-dark mb-0">Admin Login <span class="badge bg-soft-success text-success ms-1">Active</span></h6>
+                                        <span class="fs-12 fw-medium text-muted">admin@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'logout' %}" class="dropdown-item">
+                                <i class="feather-log-out"></i><span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="page-header">
+                <div class="page-header-left">
+                    <h5 class="m-b-10">Market Control Center</h5>
+                </div>
+            </div>
+
+            <div class="main-content">
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-0" style="background-color: #88b4ff; border-radius: 12px;">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;background-color:#cbdcf7;border-radius:10px;">
+                                    <i class="feather-briefcase fs-3 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 text-muted fw-bold" style="font-size:0.85rem;">COMPANIES</h6>
+                                    <h3 class="mb-0 fw-extrabold text-dark">{{ total_companies }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-0 bg-success text-white" style="border-radius:12px;">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="feather-users fs-1 me-3"></i>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 opacity-75 fw-bold" style="font-size:0.85rem;">ACTIVE INVESTORS</h6>
+                                    <h3 class="card-title mb-0 fw-extrabold">{{ total_users }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-0 bg-warning text-white" style="border-radius:12px;">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="feather-pie-chart fs-1 me-3"></i>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 opacity-75 fw-bold" style="font-size:0.85rem;">ACTIVE LISTINGS</h6>
+                                    <h3 class="card-title mb-0 fw-extrabold">{{ total_shares_listed }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-0 bg-danger text-white" style="border-radius:12px;">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="feather-repeat fs-1 me-3"></i>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 opacity-75 fw-bold" style="font-size:0.85rem;">TOTAL TRANSACTIONS</h6>
+                                    <h3 class="card-title mb-0 fw-extrabold">{{ total_transactions }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview Bar + Monthly Line Charts -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0 fw-bold">Market Statistics Overview</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="stockBarChart" style="height: 350px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0 fw-bold">Transaction Activity (Monthly)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="lineChart" style="height: 350px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buy vs Sell Volume Chart -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0 fw-bold">Buy vs Sell Volume — All Companies</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="buySellChart" style="height: 320px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Per-Listing Price History Charts -->
+                <div class="mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">📈 Live Stock Price History — All Listings</h5>
+                    <div class="row" id="price-charts-row"></div>
+                    <div id="no-history-msg" class="text-muted text-center py-4" style="display:none;">
+                        No price history available yet. History is recorded when users buy or sell shares.
+                    </div>
+                </div>
+
+                <!-- Recent Transactions Table -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold">Recent Market Transactions</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th class="ps-3">User</th>
+                                                <th>Company</th>
+                                                <th>Type</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Timestamp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for txn in recent_transactions %}
+                                            <tr>
+                                                <td class="ps-3"><strong>{{ txn.user.username }}</strong></td>
+                                                <td>{{ txn.listing.company.company_name }}</td>
+                                                <td>
+                                                    <span class="badge {% if txn.transaction_type == 'buy' %}bg-soft-success text-success{% else %}bg-soft-danger text-danger{% endif %}">
+                                                        {{ txn.transaction_type|upper }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ txn.quantity }}</td>
+                                                <td>₹{{ txn.price_at_transaction }}</td>
+                                                <td><small class="text-muted">{{ txn.timestamp|date:"M d, H:i" }}</small></td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="text-center py-4">No recent transactions found.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="static/assets/vendors/js/vendors.min.js"></script>
+    <script src="static/assets/vendors/js/apexcharts.min.js"></script>
+    <script src="static/assets/js/common-init.min.js"></script>
+
+    <script>
+        // ---- Data from Django ----
+        var months           = {{ months|safe }};
+        var transCounts      = {{ transaction_counts|safe }};
+        var buySellData      = {{ buy_sell_data|safe }};
+        var listingsChartData = {{ listings_chart_data|safe }};
+
+        // ---- 1. Stats Bar Chart ----
+        new ApexCharts(document.querySelector("#stockBarChart"), {
+            series: [{
+                name: 'System Count',
+                data: [{{ total_companies }}, {{ total_users }}, {{ total_shares_listed }}, {{ total_transactions }}]
+            }],
+            chart: { type: 'bar', height: 350, toolbar: { show: false } },
+            plotOptions: { bar: { borderRadius: 4, horizontal: false, columnWidth: '40%' } },
+            colors: ['#0d6efd', '#198754', '#0dcaf0', '#212529'],
+            xaxis: { categories: ['Companies', 'Investors', 'Active Shares', 'Transactions'] },
+            dataLabels: { enabled: false }
+        }).render();
+
+        // ---- 2. Monthly Transactions Line Chart ----
+        new ApexCharts(document.querySelector("#lineChart"), {
+            series: [{ name: 'Transactions', data: transCounts.length ? transCounts : [0] }],
+            chart: { type: 'line', height: 350, toolbar: { show: false } },
+            stroke: { width: 4, curve: 'smooth' },
+            xaxis: { categories: months.length ? months : ['No Data'] },
+            colors: ['#28a745'],
+            markers: { size: 5 },
+            noData: { text: 'No transaction data yet' }
+        }).render();
+
+        // ---- 3. Buy vs Sell Volume Bar Chart ----
+        var bsNames = buySellData.map(d => d.name);
+        var bsBuys  = buySellData.map(d => d.buys);
+        var bsSells = buySellData.map(d => d.sells);
+
+        new ApexCharts(document.querySelector("#buySellChart"), {
+            series: [
+                { name: 'Bought', data: bsBuys.length ? bsBuys : [0] },
+                { name: 'Sold',   data: bsSells.length ? bsSells : [0] }
+            ],
+            chart: { type: 'bar', height: 320, toolbar: { show: false } },
+            plotOptions: { bar: { columnWidth: '50%', borderRadius: 6 } },
+            xaxis: { categories: bsNames.length ? bsNames : ['No Data'] },
+            colors: ['#007bff', '#dc3545'],
+            legend: { position: 'top' },
+            noData: { text: 'No buy/sell data yet' }
+        }).render();
+
+        // ---- 4. Per-Listing Price History Area Charts ----
+        var chartsRow = document.getElementById('price-charts-row');
+        var noHistMsg = document.getElementById('no-history-msg');
+
+        if (listingsChartData.length === 0) {
+            noHistMsg.style.display = 'block';
+        } else {
+            listingsChartData.forEach(function(listing, idx) {
+                var firstPrice = listing.prices[0];
+                var lastPrice  = listing.prices[listing.prices.length - 1];
+                var trendColor = lastPrice >= firstPrice ? '#28a745' : '#dc3545';
+                var trendIcon  = lastPrice >= firstPrice ? '▲' : '▼';
+                var trendClass = lastPrice >= firstPrice ? 'text-success' : 'text-danger';
+                var diff       = Math.abs(lastPrice - firstPrice).toFixed(2);
+
+                var col = document.createElement('div');
+                col.className = 'col-md-6 mb-4';
+                col.innerHTML = `
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0 fw-bold">${listing.company_name}</h6>
+                                <small class="text-muted">
+                                    ${listing.total_shares} shares &bull;
+                                    <span class="badge ${listing.status === 'approved' ? 'bg-success' : listing.status === 'pending' ? 'bg-warning' : 'bg-danger'}">
+                                        ${listing.status.toUpperCase()}
+                                    </span>
+                                </small>
+                            </div>
+                            <div class="text-end">
+                                <span class="fw-bold fs-5">₹${listing.current_price.toFixed(2)}</span><br>
+                                <small class="${trendClass}">${trendIcon} ₹${diff} from start</small>
+                            </div>
+                        </div>
+                        <div class="card-body p-2">
+                            <div id="priceChart_${idx}" style="height: 220px;"></div>
+                        </div>
+                    </div>
+                `;
+                chartsRow.appendChild(col);
+
+                new ApexCharts(document.querySelector(`#priceChart_${idx}`), {
+                    series: [{ name: 'Price (₹)', data: listing.prices }],
+                    chart: { type: 'area', height: 220, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    fill: {
+                        type: 'gradient',
+                        gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 100] }
+                    },
+                    xaxis: {
+                        categories: listing.labels,
+                        labels: { rotate: -30, style: { fontSize: '10px' } },
+                        tickAmount: Math.min(listing.labels.length, 6)
+                    },
+                    yaxis: {
+                        labels: { formatter: val => '₹' + val.toFixed(2) }
+                    },
+                    colors: [trendColor],
+                    tooltip: { y: { formatter: val => '₹' + val.toFixed(2) } },
+                    markers: { size: listing.prices.length <= 10 ? 4 : 0 },
+                    noData: { text: 'No price data' }
+                }).render();
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        {% if messages %}
+        {% for message in messages %}
+        Swal.fire({
+            icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+            title: "{{ message.tags|title }}",
+            text: "{{ message }}",
+            timer: 3000,
+            showConfirmButton: false
+        });
+        {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>

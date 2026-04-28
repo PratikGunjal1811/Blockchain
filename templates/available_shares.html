@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assignly || Available Shares</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/vendors/css/vendors.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{% url 'admin_index' %}" class="b-brand d-flex align-items-center text-decoration-none">
+                    <i class="fas fa-chart-line text-primary fs-2 me-2"></i>
+                    <span class="brand-text" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -1px; color: #2b3481; line-height: 1;">StockFlow</span>
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item">
+                        <a href="{% url 'stock_marketplace' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-grid"></i></span>
+                            <span class="nxl-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item active">
+                        <a href="{% url 'available_shares' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-trending-up"></i></span>
+                            <span class="nxl-mtext">All Shares</span>
+                        </a>
+                    </li>
+                    <li class="nxl-item">
+                        <a href="{% url 'user_portfolio' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-briefcase"></i></span>
+                            <span class="nxl-mtext">Portfolio</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-left d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
+                    <div class="hamburger hamburger--arrowturn">
+                        <div class="hamburger-box"><div class="hamburger-inner"></div></div>
+                    </div>
+                </a>
+                <div class="nxl-navigation-toggle">
+                    <a href="javascript:void(0);" id="menu-mini-button"><i class="feather-align-left"></i></a>
+                    <a href="javascript:void(0);" id="menu-expend-button" style="display: none"><i class="feather-arrow-right"></i></a>
+                </div>
+                <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                    <a href="javascript:void(0);" id="nxl-lavel-mega-menu-open"><i class="feather-align-left"></i></a>
+                </div>
+                <div class="nxl-drp-link nxl-lavel-mega-menu">
+                    <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                        <a href="javascript:void(0)" id="nxl-lavel-mega-menu-hide">
+                            <i class="feather-arrow-left me-2"></i><span>Back</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+                    <!-- Wallet Balance in Header -->
+                    <div class="nxl-h-item d-none d-sm-flex align-items-center me-2">
+                        <span class="badge bg-soft-success text-success fs-6 px-3 py-2" style="border-radius: 20px;">
+                            <i class="feather-credit-card me-1"></i>
+                            ₹{{ user.amount|floatformat:2 }}
+                        </span>
+                    </div>
+                    <div class="dropdown nxl-h-item nxl-header-search">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                            <i class="feather-search"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-search-dropdown">
+                            <div class="input-group search-form">
+                                <span class="input-group-text"><i class="feather-search fs-6 text-muted"></i></span>
+                                <input type="text" class="form-control search-input-field" placeholder="Search...." />
+                                <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item d-none d-sm-flex">
+                        <div class="full-screen-switcher">
+                            <a href="javascript:void(0);" class="nxl-head-link me-0" onclick="$('body').fullScreenHelper('toggle');">
+                                <i class="feather-maximize maximize"></i>
+                                <i class="feather-minimize minimize"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item dark-light-theme">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button"><i class="feather-moon"></i></a>
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 light-button" style="display: none"><i class="feather-sun"></i></a>
+                    </div>
+                    <div class="dropdown nxl-h-item">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
+                            <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar me-0" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
+                            <div class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <img src="/static/assets/images/admin.jpg" alt="user-image" class="img-fluid user-avtar" />
+                                    <div>
+                                        <h6 class="text-dark mb-0">{{ user.full_name }} <span class="badge bg-soft-success text-success ms-1">Active</span></h6>
+                                        <span class="fs-12 fw-medium text-muted">{{ user.email }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'logout' %}" class="dropdown-item">
+                                <i class="feather-log-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Marketplace: All Shares</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- ===================== WALLET CARD ===================== -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-text avatar-lg bg-soft-success text-success me-3" style="width:56px;height:56px;font-size:1.5rem;display:flex;align-items:center;justify-content:center;border-radius:50%;">
+                                        <i class="feather-credit-card"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-muted mb-1 fs-12 fw-medium text-uppercase">Wallet Balance</p>
+                                        <h3 class="mb-0 text-success fw-bold">₹{{ user.amount|floatformat:2 }}</h3>
+                                        <small class="text-muted">Available for trading</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <form action="{% url 'wallet_topup' %}" method="POST" class="d-flex align-items-center gap-2 justify-content-md-end flex-wrap">
+                                    {% csrf_token %}
+                                    <div class="input-group" style="max-width: 200px;">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" name="amount" min="1" step="0.01" placeholder="Enter amount" class="form-control" required>
+                                    </div>
+                                    <button type="submit" name="action" value="add" class="btn btn-success btn-sm px-3">
+                                        <i class="feather-plus me-1"></i> Add Funds
+                                    </button>
+                                    <button type="submit" name="action" value="remove" class="btn btn-outline-danger btn-sm px-3">
+                                        <i class="feather-minus me-1"></i> Withdraw
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===================== END WALLET CARD ===================== -->
+
+
+                <!-- ===================== BUY TABLE ===================== -->
+                <div class="card mb-4">
+                    <div class="card-header"><h5 class="card-title">Available in Marketplace</h5></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Available Shares</th>
+                                        <th>Price Per Share</th>
+                                        <th>Total Market Value</th>
+                                        <th>Listing Date</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for listing in listings %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-text avatar-md bg-soft-primary text-primary me-3">
+                                                    {{ listing.company.company_name|slice:":1" }}
+                                                </div>
+                                                <span class="fw-bold text-dark">{{ listing.company.company_name }}</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-soft-secondary text-secondary">{{ listing.total_shares }}</span></td>
+                                        <td><span class="fw-medium">₹{{ listing.price_per_share }}</span></td>
+                                        <td><span class="text-success fw-bold">₹{{ listing.total_value }}</span></td>
+                                        <td><span class="text-muted">{{ listing.listing_date|date:"M d, Y" }}</span></td>
+                                        <td class="text-end">
+                                            <!-- ✅ CHANGED: Replaced form POST with blockchain buy button -->
+                                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    id="buy-qty-{{ listing.id }}"
+                                                    value="1" 
+                                                    min="1" 
+                                                    max="{{ listing.total_shares }}" 
+                                                    class="form-control form-control-sm" 
+                                                    style="width: 80px;"
+                                                >
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-sm btn-primary"
+                                                    onclick="buyWithMetaMask(
+                                                        '{{ listing.id }}',
+                                                        '{{ listing.price_per_share }}',
+                                                        '{{ listing.company.wallet_address }}'
+                                                    )"
+                                                >
+                                                    <i class="feather-shopping-cart me-1"></i> Buy
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <div class="text-muted">
+                                                <i class="feather-activity fs-1 d-block mb-2"></i>
+                                                No shares are currently available in the marketplace.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===================== END BUY TABLE ===================== -->
+
+
+                <!-- ===================== SELL TABLE (PORTFOLIO) ===================== -->
+                <div class="card mb-4">
+                    <div class="card-header"><h5 class="card-title">Your Current Holdings (Portfolio)</h5></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Quantity Owned</th>
+                                        <th>Avg. Buy Price</th>
+                                        <th>Current Price</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in portfolio %}
+                                    <tr>
+                                        <td class="fw-bold">{{ item.listing.company.company_name }}</td>
+                                        <td><span class="badge bg-primary">{{ item.quantity }}</span></td>
+                                        <td>₹{{ item.average_price }}</td>
+                                        <td>₹{{ item.listing.price_per_share }}</td>
+                                        <td class="text-end">
+                                            <!-- ✅ CHANGED: Replaced form POST with blockchain sell button -->
+                                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    id="sell-qty-{{ item.listing.id }}"
+                                                    value="1" 
+                                                    min="1" 
+                                                    max="{{ item.quantity }}" 
+                                                    class="form-control form-control-sm" 
+                                                    style="width: 80px;"
+                                                >
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-sm btn-soft-danger text-danger"
+                                                    onclick="sellWithWeb3('{{ item.listing.id }}')"
+                                                >
+                                                    <i class="feather-trending-down me-1"></i> Sell
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-muted">You do not own any shares yet.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===================== END SELL TABLE ===================== -->
+
+
+                <!-- ===================== TRANSACTION HISTORY ===================== -->
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Transaction History</h5></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Type</th>
+                                        <th>Company</th>
+                                        <th>Qty</th>
+                                        <th>Trade Price</th>
+                                        <th>Total Value</th>
+                                        <th>TX Hash</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for trade in history %}
+                                    <tr>
+                                        <td class="fs-12">{{ trade.timestamp|date:"M d, Y H:i" }}</td>
+                                        <td>
+                                            <span class="badge {% if trade.transaction_type == 'buy' %}bg-soft-success text-success{% else %}bg-soft-danger text-danger{% endif %}">
+                                                {{ trade.transaction_type|upper }}
+                                            </span>
+                                        </td>
+                                        <td>{{ trade.listing.company.company_name }}</td>
+                                        <td>{{ trade.quantity }}</td>
+                                        <td>₹{{ trade.price_at_transaction }}</td>
+                                        <td>₹{{ trade.price_at_transaction|floatformat:2 }}</td>
+                                        <!-- ✅ NEW: Show blockchain TX hash -->
+                                        <td>
+                                            {% if trade.tx_hash %}
+                                                <span class="text-muted fs-11" style="font-family: monospace; font-size: 11px;">
+                                                    {{ trade.tx_hash|slice:":16" }}...
+                                                </span>
+                                            {% else %}
+                                                <span class="text-muted fs-12">—</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center py-3 text-muted">No transaction history found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===================== END TRANSACTION HISTORY ===================== -->
+
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/assets/vendors/js/vendors.min.js"></script>
+    <script src="/static/assets/js/common-init.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- ✅ NEW: ethers.js for MetaMask interaction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+    <script>
+
+        // ─── CONSTANTS ──────────────────────────────────────────────
+        const ETH_TO_INR_RATE = 300000;
+        const CSRF_TOKEN = "{{ csrf_token }}";
+
+        // ─── SweetAlert for Django messages ─────────────────────────
+        {% if messages %}
+        {% for message in messages %}
+        Swal.fire({
+            icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+            title: "{{ message.tags|title }}",
+            text: "{{ message }}",
+            timer: 3000,
+            showConfirmButton: false
+        });
+        {% endfor %}
+        {% endif %}
+
+
+        // ════════════════════════════════════════════════════════════
+        // ✅ BUY — User sends ETH to Company via MetaMask
+        // ════════════════════════════════════════════════════════════
+        async function buyWithMetaMask(listingId, pricePerShare, companyWallet) {
+
+            // 1. Get quantity from input
+            const qty = parseInt(document.getElementById('buy-qty-' + listingId).value);
+            if (!qty || qty <= 0) {
+                Swal.fire('Error', 'Please enter a valid quantity.', 'error');
+                return;
+            }
+
+            // 2. Check MetaMask installed
+            if (typeof window.ethereum === 'undefined') {
+                Swal.fire('MetaMask Not Found', 'Please install MetaMask extension to buy shares.', 'warning');
+                return;
+            }
+
+            try {
+                // 3. Request MetaMask account access
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer   = provider.getSigner();
+
+                // 4. Calculate ETH amount
+                const totalINR = parseFloat(pricePerShare) * qty;
+                const totalETH = totalINR / ETH_TO_INR_RATE;
+                const totalWei = ethers.utils.parseEther(totalETH.toFixed(18));
+
+                Swal.fire({
+                    title: 'Confirm Purchase',
+                    html: `
+                        <p>Buying <strong>${qty}</strong> share(s)</p>
+                        <p>Price: <strong>₹${totalINR.toFixed(2)}</strong></p>
+                        <p>ETH to pay: <strong>${totalETH.toFixed(6)} ETH</strong></p>
+                        <p>Sending to company wallet via MetaMask...</p>
+                    `,
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm & Pay',
+                    cancelButtonText: 'Cancel'
+                }).then(async (result) => {
+                    if (!result.isConfirmed) return;
+
+                    try {
+                        // 5. Send ETH via MetaMask to company wallet
+                        const tx = await signer.sendTransaction({
+                            to: companyWallet,
+                            value: totalWei
+                        });
+
+                        Swal.fire({
+                            title: 'Transaction Sent!',
+                            text: 'Waiting for blockchain confirmation...',
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.showLoading()
+                        });
+
+                        // 6. Wait for confirmation
+                        await tx.wait();
+
+                        // 7. Send tx_hash to Django backend to verify & process buy
+                        const response = await fetch('/verify-transaction/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': CSRF_TOKEN
+                            },
+                            body: JSON.stringify({
+                                tx_hash:    tx.hash,
+                                listing_id: listingId,
+                                quantity:   qty
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Purchase Successful!',
+                                text: data.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            }).then(() => location.reload());
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+
+                    } catch (txError) {
+                        Swal.fire('Transaction Failed', txError.message || 'MetaMask transaction was rejected.', 'error');
+                    }
+                });
+
+            } catch (err) {
+                Swal.fire('Error', err.message || 'Something went wrong.', 'error');
+            }
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        // ✅ SELL — Backend sends ETH from Company to User automatically
+        // ════════════════════════════════════════════════════════════
+        async function sellWithWeb3(listingId) {
+
+            // 1. Get quantity from input
+            const qty = parseInt(document.getElementById('sell-qty-' + listingId).value);
+            if (!qty || qty <= 0) {
+                Swal.fire('Error', 'Please enter a valid quantity.', 'error');
+                return;
+            }
+
+            // 2. Confirm sell
+            const confirm = await Swal.fire({
+                title: 'Confirm Sell',
+                html: `<p>Selling <strong>${qty}</strong> share(s).</p><p>Company will send ETH to your wallet automatically.</p>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Sell',
+                cancelButtonText: 'Cancel'
+            });
+
+            if (!confirm.isConfirmed) return;
+
+            // 3. Show loading
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Selling shares and sending ETH to your wallet...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            try {
+                // 4. Call backend sell endpoint
+                const response = await fetch('/sell-share-web3/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': CSRF_TOKEN
+                    },
+                    body: JSON.stringify({
+                        listing_id: listingId,
+                        quantity:   qty
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sell Successful!',
+                        html: `
+                            <p>${data.message}</p>
+                            <p style="font-size:12px; color:#888; font-family:monospace; word-break:break-all;">
+                                TX: ${data.tx_hash}
+                            </p>
+                        `,
+                        confirmButtonText: 'OK'
+                    }).then(() => location.reload());
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+
+            } catch (err) {
+                Swal.fire('Error', err.message || 'Something went wrong.', 'error');
+            }
+        }
+
+    </script>
+</body>
+</html>

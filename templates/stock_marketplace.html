@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keyword" content="" />
+    <meta name="author" content="flexilecode" />
+    <title>StockFlow || Live Market</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/vendors/css/vendors.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/vendors/css/daterangepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/theme.min.css" />
+    <style>
+        /* Core UI Styles */
+        .bg-soft-success { background-color: rgba(40, 167, 69, 0.1); color: #28a745; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        .bg-soft-danger { background-color: rgba(220, 53, 69, 0.1); color: #dc3545; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        
+        /* Interactive Stock Card */
+        .stock-card { 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            border: 1px solid #eef0f7 !important; 
+        }
+        .stock-card:hover { 
+            transform: translateY(-5px); 
+            border-color: #2b3481 !important; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; 
+        }
+
+        /* SweetAlert Customization */
+        .swal2-html-container { margin: 1em 0 0 !important; overflow: hidden !important; }
+    </style>
+</head>
+
+<body>
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{% url 'admin_index' %}" class="b-brand d-flex align-items-center text-decoration-none">
+                     <i class="fas fa-chart-line text-primary fs-2 me-2"></i>
+                    <span class="brand-text" style="
+                        font-family: 'Plus Jakarta Sans', sans-serif;
+                        font-size: 2rem;
+                        font-weight: 800;
+                        letter-spacing: -1px;
+                        color: #2b3481; /* Professional Deep Blue/Primary */
+                        line-height: 1;">
+                        StockFlow</span>
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+
+                    <li class="nxl-item active">
+                        <a href="{% url 'stock_marketplace' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-grid"></i></span>
+                            <span class="nxl-mtext">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nxl-item ">
+                        <a href="{% url 'available_shares' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-trending-up"></i></span>
+                            <span class="nxl-mtext">All Shares</span>
+                        </a>
+                    </li>
+
+                    <li class="nxl-item  ">
+                        <a href="{% url 'user_portfolio' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-briefcase"></i></span>
+                            <span class="nxl-mtext">Portfolio</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-left d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
+                    <div class="hamburger hamburger--arrowturn">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </a>
+                <div class="nxl-navigation-toggle">
+                    <a href="javascript:void(0);" id="menu-mini-button">
+                        <i class="feather-align-left"></i>
+                    </a>
+                    <a href="javascript:void(0);" id="menu-expend-button" style="display: none">
+                        <i class="feather-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                    <a href="javascript:void(0);" id="nxl-lavel-mega-menu-open">
+                        <i class="feather-align-left"></i>
+                    </a>
+                </div>
+                <div class="nxl-drp-link nxl-lavel-mega-menu">
+                    <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
+                        <a href="javascript:void(0)" id="nxl-lavel-mega-menu-hide">
+                            <i class="feather-arrow-left me-2"></i>
+                            <span>Back</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+                    <div class="dropdown nxl-h-item nxl-header-search">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside">
+                            <i class="feather-search"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-search-dropdown">
+                            <div class="input-group search-form">
+                                <span class="input-group-text">
+                                    <i class="feather-search fs-6 text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control search-input-field" placeholder="Search...." />
+                                <span class="input-group-text">
+                                    <button type="button" class="btn-close"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item d-none d-sm-flex">
+                        <div class="full-screen-switcher">
+                            <a href="javascript:void(0);" class="nxl-head-link me-0"
+                                onclick="$('body').fullScreenHelper('toggle');">
+                                <i class="feather-maximize maximize"></i>
+                                <i class="feather-minimize minimize"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item dark-light-theme">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button">
+                            <i class="feather-moon"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 light-button" style="display: none">
+                            <i class="feather-sun"></i>
+                        </a>
+                    </div>
+                    <div class="dropdown nxl-h-item">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button"
+                            data-bs-auto-close="outside">
+                            <img src="/static/assets/images/admin.jpg" alt="user-image"
+                                class="img-fluid user-avtar me-0" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
+                            <div class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <img src="/static/assets/images/admin.jpg" alt="user-image"
+                                        class="img-fluid user-avtar" />
+                                    <div>
+                                        <h6 class="text-dark mb-0">User Login <span
+                                                class="badge bg-soft-success text-success ms-1">Active</span></h6>
+                                        <span class="fs-12 fw-medium text-muted">user@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'logout' %}" class="dropdown-item">
+                                <i class="feather-log-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Live Market Explorer</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="row">
+                    {% for data in market_data %}
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card stretch stretch-full stock-card" 
+                             onclick="openStockDetail('{{ data.listing.company.company_name|escapejs }}', {{ data.price_history_json }}, {{ data.pnl }}, {{ data.holding_qty }}, {{ data.listing.price_per_share }})">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start justify-content-between mb-4">
+                                    <div class="content-left">
+                                        <h5 class="fw-bold mb-0 text-dark">{{ data.listing.company.company_name }}</h5>
+                                        <small class="text-muted">Total Shares: {{ data.listing.total_shares }}</small>
+                                    </div>
+                                    <div class="content-right text-end">
+                                        <h4 class="mb-0 fw-800 text-primary">₹{{ data.listing.price_per_share }}</h4>
+                                        {% if data.trend == 'up' %}
+                                            <span class="bg-soft-success">▲ Bullish</span>
+                                        {% else %}
+                                            <span class="bg-soft-danger">▼ Bearish</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div style="height: 80px; width: 100%;">
+                                    <canvas id="chart-{{ data.listing.id }}"></canvas>
+                                </div>
+
+                                <div class="p-3 bg-light rounded-3 mt-4">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="fs-11 text-muted mb-0">Your Holdings</p>
+                                            <h6 class="mb-0 fw-bold">{{ data.holding_qty }} Shares</h6>
+                                        </div>
+                                        <div class="text-end">
+                                            <p class="fs-11 text-muted mb-0">Unrealized P&L</p>
+                                            {% if data.pnl > 0 %}
+                                                <h6 class="mb-0 text-success fw-bold">+₹{{ data.pnl|floatformat:2 }}</h6>
+                                            {% elif data.pnl < 0 %}
+                                                <h6 class="mb-0 text-danger fw-bold">-₹{{ data.abs_pnl|floatformat:2 }}</h6>
+                                            {% else %}
+                                                <h6 class="mb-0 text-muted fw-bold">₹0.00</h6>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        (function() {
+                            const ctx = document.getElementById('chart-{{ data.listing.id }}').getContext('2d');
+                            const priceData = {{ data.price_history_json|safe }};
+                            const isUp = "{{ data.trend }}" === "up";
+                            const color = isUp ? "#28a745" : "#dc3545";
+                            
+                            new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: priceData.map((_, i) => i),
+                                    datasets: [{
+                                        data: priceData,
+                                        borderColor: color,
+                                        borderWidth: 2,
+                                        pointRadius: 0,
+                                        fill: true,
+                                        backgroundColor: isUp ? 'rgba(40, 167, 69, 0.05)' : 'rgba(220, 53, 69, 0.05)',
+                                        tension: 0.4
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                                    scales: { x: { display: false }, y: { display: false } }
+                                }
+                            });
+                        })();
+                    </script>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/assets/vendors/js/vendors.min.js"></script>
+    <script src="/static/assets/js/common-init.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+    function openStockDetail(name, history, pnl, qty, currentPrice) {
+        const pnlClass = pnl >= 0 ? 'text-success' : 'text-danger';
+        const pnlSign = pnl >= 0 ? '+' : '';
+
+        Swal.fire({
+            title: `<strong>${name}</strong>`,
+            html: `
+                <div class="p-2">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="text-start">
+                            <small class="text-muted d-block">Current Price</small>
+                            <h4 class="fw-bold">₹${currentPrice}</h4>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted d-block">Your Profit/Loss</small>
+                            <h4 class="${pnlClass} fw-bold">${pnlSign}₹${pnl.toFixed(2)}</h4>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="text-muted mb-2">Price Movement History</p>
+                    <div style="height: 250px; width: 100%;">
+                        <canvas id="popupChart"></canvas>
+                    </div>
+                    <div class="mt-3 p-2 bg-light rounded text-center">
+                        <small>Current Holding: <strong>${qty} Shares</strong></small>
+                    </div>
+                </div>
+            `,
+            width: '600px',
+            showCloseButton: true,
+            showConfirmButton: false,
+            didOpen: () => {
+                const ctx = document.getElementById('popupChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: history.map((_, i) => `T-${history.length - i - 1}`),
+                        datasets: [{
+                            label: 'Price (₹)',
+                            data: history,
+                            borderColor: '#2b3481',
+                            backgroundColor: 'rgba(43, 52, 129, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#2b3481'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: false, grid: { color: '#f0f0f0' } },
+                            x: { grid: { display: false } }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+        });
+    }
+
+    /* Flash Messages */
+    {% if messages %}
+    {% for message in messages %}
+    Swal.fire({
+        icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+        title: "{{ message.tags|title }}",
+        text: "{{ message }}",
+        timer: 3000,
+        showConfirmButton: false
+    });
+    {% endfor %}
+    {% endif %}
+    </script>
+</body>
+</html>
