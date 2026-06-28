@@ -22,7 +22,21 @@ from .models import (
 )
 
 # Connect to Ganache
-web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
+import os
+from django.conf import settings as django_settings
+
+GANACHE_RPC_URL = os.environ.get('GANACHE_RPC_URL', 'http://127.0.0.1:7545')
+
+try:
+    web3 = Web3(Web3.HTTPProvider(GANACHE_RPC_URL))
+    if not web3.is_connected():
+        web3 = None
+        print("WARNING: Web3 not connected")
+    else:
+        print(f"Web3 connected to: {GANACHE_RPC_URL}")
+except Exception as e:
+    web3 = None
+    print(f"WARNING: Web3 connection failed: {e}")
 ETH_TO_INR_RATE = Decimal('300000')
 
 def index(request):
